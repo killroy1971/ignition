@@ -1,0 +1,2 @@
+# ignition
+CoreOS ignition files
