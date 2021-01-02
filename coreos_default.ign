@@ -13,6 +13,12 @@
     ]
   },
   "storage": {
+    "disks": [
+      {
+        "device": "/dev/vda",
+        "wipeTable": true
+      }
+    ],
     "files": [
       {
         "path": "/etc/zincati/config.d/90-disable-auto-updates.toml",
