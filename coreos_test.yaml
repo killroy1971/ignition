@@ -19,10 +19,11 @@ systemd:
           TTYVTDisallocate=no
 storage:
   files:
-		- path: /etc/hostname
+    - path: /etc/hostname
+      mode: 0644
       contents:
         inline: |
-          default.gshome.lan
+          coreostest.gshome.lan
     - path: /etc/zincati/config.d/90-disable-auto-updates.toml
       contents:
         inline: |

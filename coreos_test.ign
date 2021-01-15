@@ -1,0 +1,66 @@
+{
+  "ignition": {
+    "version": "3.0.0"
+  },
+  "passwd": {
+    "users": [
+      {
+        "name": "core",
+        "sshAuthorizedKeys": [
+          "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDNdXEL6WnxTjjiWvUQwxtAt6Ne2zP9fNWaXUyCcJU0qp6S8rWNQCzNq3DV1STJUMMeCyEJE5tomYpqsRPE2Aa5S7R8Rb34/CT7h0rKuo2JCmEuytAJ5vRnLMQfK8SMh3vvyoUACinFdfqyvdAGNr9WS597hjTzePSZo0Wv5pc8/Owxazp1YFkvzWmLkOeevrNUw3SlFBjEjzO68Pj0QqXaICeXnFRt37PakNLMbFhRisjH2QwdEtPjhY979jUSRkD+xNxr23vyNL0e5xVlcXkwEUYzGUjLcNOQdF3NKfg1TQM/DqmS3h8DEab+JHfqAQ5HRcYHERxyvFyxf47ozMGuNHSFJYXmh0RHMpmoBXXjtdjtXaY1JYP0YXwtraB5mWGYkWaOhVn6MT3Jn9DjmLIGhzwiNheGNRIrwvf93IU29zoJfYrHnMWdxMEIPNzHDq++WrHSI72lUmVP+6WMZ6oaCm4kAlMet+4/l32R8o9BPgz/eINhbwOCyU1673FmnuqLBPFBxAI04HDJ1PJiYYimPektVxk7IUF0tpyOU26Wgj0cHKC/Aq91dTtQQ7VAdfAPKxGGlCQtC6TlOgB3V/yEROAD8hY536kaGtW4dARgxbgbdrJfE8yiZKLcSeTEkWK+0jFdJ51wQkL+syK70r9ZC+2Zp1BGjlBe7/Wrd+dm0w== glenn@settler01.gshome.lan"
+        ]
+      }
+    ]
+  },
+  "storage": {
+    "files": [
+      {
+        "path": "/etc/hostname",
+        "contents": {
+          "source": "data:,coreostest.gshome.lan%0A"
+        },
+        "mode": 420
+      },
+      {
+        "path": "/etc/zincati/config.d/90-disable-auto-updates.toml",
+        "contents": {
+          "source": "data:,%5Bupdates%5D%0Aenabled%20%3D%20false%0A"
+        }
+      },
+      {
+        "path": "/etc/zincati/config.d/99-issues-481.toml",
+        "contents": {
+          "source": "data:,%5Bcincinnati%5D%0Abase_url%3D%20%22https%3A%2F%2Fupdates.coreos.fedoraproject.org%22%0A%23%20https%3A%2F%2Fgithub.com%2Fcoreos%2Ffedora-coreos-tracker%2Fissues%2F481%23issuecomment-653011069%0A%5Bupdates%5D%0Aallow_downgrade%20%3D%20true%0A"
+        },
+        "mode": 420
+      },
+      {
+        "path": "/etc/profile.d/systemd-pager.sh",
+        "contents": {
+          "source": "data:,%23%20Tell%20systemd%20to%20not%20use%20a%20pager%20when%20printing%20information%0Aexport%20SYSTEMD_PAGER%3Dcat%0A"
+        },
+        "mode": 420
+      },
+      {
+        "path": "/etc/sysctl.d/20-silence-audit.conf",
+        "contents": {
+          "source": "data:,%23%20Raise%20console%20message%20logging%20level%20from%20DEBUG%20(7)%20to%20WARNING%20(4)%0A%23%20to%20hide%20audit%20messages%20from%20the%20interactive%20console%0Akernel.printk%3D4%0A"
+        },
+        "mode": 420
+      }
+    ]
+  },
+  "systemd": {
+    "units": [
+      {
+        "dropins": [
+          {
+            "contents": "[Service]\n# Override Execstart in main unit\nExecStart=\n# Add new Execstart with `-` prefix to ignore failure\nExecStart=-/usr/sbin/agetty --autologin core --noclear %I $TERM\nTTYVTDisallocate=no\n",
+            "name": "autologin-core.conf"
+          }
+        ],
+        "name": "serial-getty@ttyS0.service"
+      }
+    ]
+  }
+}
